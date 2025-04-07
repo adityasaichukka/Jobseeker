@@ -1,0 +1,51 @@
+{% extends "home.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Attempt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 280px;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+    {% for message in messages %}
+    <center><p class="alert alert-success">{{ message }}</p></center>
+    {% endfor %}
+    {% endif %}
+    {% for i in data %}
+    <h2>{{i.user_id.username}} Test Response</h2>
+        <div class="question">
+            <p>1.{{i.textquestion}}</p>
+            <textarea name="answer" placeholder="Type your answer here..." required readonly> {{i.answer}}</textarea>
+        </div>
+        
+    <a href="{% url 'selectcandidate' i.id %}"><button >Select Candidate</button></a>
+       <a href="{% url 'rejectcandidate' i.id %}"> <button style="background-color: red;" >Reject Candidate</button></a>
+
+        
+        {% endfor %}
+</body>
+{% endblock %}

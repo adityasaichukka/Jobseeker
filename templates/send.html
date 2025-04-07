@@ -1,0 +1,96 @@
+{% extends "home.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        .form-container {
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            outline: none;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            border-color: #4caf50;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 14px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Ask Your Question</h2>
+        <form method="POST" action="{% url 'send' id %}">
+            {% csrf_token %}
+            <label for="question">Your Question:</label>
+            <textarea id="question" name="question" rows="6" placeholder="Type your question here..."></textarea>
+            <button type="submit">Submit Question</button>
+        </form>
+        <div class="form-footer">
+            <p>Write Only one Question There!</p>
+        </div>
+    </div>
+
+</body>
+
+{% endblock %}

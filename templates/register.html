@@ -1,0 +1,133 @@
+{% extends "index.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Registration Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #e7e3e0, #eca483);
+            /* background: linear-gradient(135deg, #a0e2d4, #bfeef5); */
+
+          
+        }
+
+        .containr {
+            width: 90%;
+            max-width:700px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 50px auto;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 450px;
+            background: url('/static/assets/img/i4.png') no-repeat center center/cover;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .containr {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="containr">
+        <div class="image-container"></div>
+        <div class="form-container">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                <center>  {{ message }}</center>
+              </div>
+            {% endfor %}
+            {% endif %}
+            <h2>Register</h2>
+            <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label> 
+                    <input type="password" id="confirm-password" placeholder="Confirm your password" name="confirm-password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; font-weight: bolder;"><a href="{% url 'login' %}">Already Have an Account? Login</a></p>
+
+        </div>
+    </div>
+</body>
+{% endblock %}

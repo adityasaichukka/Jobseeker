@@ -1,0 +1,220 @@
+{% extends "home.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right,rgb(139, 231, 121),rgb(166, 140, 238));
+
+            /* background-image: url('/static/img/i5.jpg');  */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .containr {
+            width: 90%;
+            max-width: 1200px; /* Add a max width */
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            overflow-x: auto; /* Allow horizontal scrolling */
+            margin-bottom: 155px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+        
+        th, td {
+            white-space: nowrap; /* Prevent table cells from wrapping */
+        }
+        
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .add-officer-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #1becad;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: white;
+        }
+
+        .add-officer-btn:hover {
+            color: white;
+            background-color: #3bf8bf;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color:rgb(92, 250, 210);
+            color: white;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            background-color: #2d97a5;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background-color: #2da7a0;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .pagination a {
+            color: #007bff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            margin: 0 2px;
+            border-radius: 5px;
+        }
+
+        .pagination a.active {
+            background-color: #45cadb;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="containr">
+    {% if messages %}
+    {% for message in messages %}
+    <center><p class="alert alert-success">{{ message }}</p></center>
+    {% endfor %}
+    {% endif %}
+    <h1>View Applications</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Job Title</td>
+                <th>Company Name</th>
+                <th>Location</th>
+                <th>Resume</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.user_id.username }}</td>
+                    <td>{{ i.user_id.email }}</td>
+                    <td>{{ i.jobid.jobtitle }}</td>
+                    <td>{{ i.jobid.companyname }}</td>
+                    <td>{{i.jobid.joblocation}}</td>
+                    <td><a href="/{{ i.resume }}" target="_blank">View Resume</a></td>
+
+                    
+                    <td>{{i.jobstatus}}</td>
+
+                   
+                    {% if i.jobstatus == 'Test Assigned'  %}
+                    <td> Waiting For Test Response </td>
+                    {% elif  i.jobstatus == 'Test Submitted Successfully'  %}   
+                    <td> 
+                        <a href="{% url 'viewtestresponse' i.id %}" class="btn btn-success btn-sm">View Response</a>
+                        {% comment %} <a href="#" class="btn btn-danger btn-sm">Reject</a> {% endcomment %}
+
+                    </td>
+                    {% elif i.jobstatus == 'Candidate Selected'  %}
+                    <td>Candidate Selected </td>
+                    {% else %}
+             <td>
+                        <!-- <a href="#" class="btn btn-info btn-sm">View</a> -->
+                        <a href="{% url 'send' i.id %}" class="btn btn-success btn-sm">Accept</a>
+                        <a href="{% url 'reject' i.id %}" class="btn btn-danger btn-sm">Reject</a>
+
+                    </td>  
+                    {% endif %}
+
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" class="no-records">No Data Available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <div class="pagination">
+        <!-- First page button -->
+        <a href="?page=1">First</a>
+        
+        <!-- Previous page button (ensure it doesn't go below 1) -->
+        <a href="?page={% if data.number > 1 %}{{ data.previous_page_number }}{% else %}1{% endif %}">Previous</a>
+    
+        <!-- Page numbers -->
+        {% for num in data.paginator.page_range %}
+            {% if data.number == num %}
+                <!-- Highlight the current page -->
+                <a href="?page={{ num }}" class="active">{{ num }}</a>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+    
+        <!-- Next page button (ensure it doesn't go beyond the last page) -->
+        <a href="?page={% if data.number < data.paginator.num_pages %}{{ data.next_page_number }}{% else %}{{ data.paginator.num_pages }}{% endif %}">Next</a>
+        
+        <!-- Last page button -->
+        <a href="?page={{ data.paginator.num_pages }}">Last</a>
+    </div>
+    
+  
+</div>
+{% endblock %}

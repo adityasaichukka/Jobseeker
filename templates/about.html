@@ -1,0 +1,58 @@
+{% extends "index.html" %}
+{% block content %}
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+      <div class="heading">
+        <div class="container">
+          <div class="row d-flex justify-content-center text-center">
+            <div class="col-lg-8">
+              <h1>About<br></h1>
+              <p class="mb-0"> JobSeeker Automated Recruitment Process Web Framework.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <ol>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li class="current">About <br></li>
+          </ol>
+        </div>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+      <center><h1 style="margin-bottom: 100px; font-weight: bolder;">About</h1></center>
+  
+        <div class="container">
+  
+          <div class="row gy-4">
+  
+            <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+              <img src="/static/assets/img/i1.jpg" class="img-fluid" alt="">
+            </div>
+  
+            <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+              <h3>JobSeeker Recruitment Process Web Framework</h3>
+              
+              <p class="fst-italic">
+                
+  The JobSeeker Automated Recruitment Process Web Framework is designed to simplify and enhance the recruitment process for administrators and job seekers. Admins can log in securely to manage job postings, including adding, updating, deleting, and viewing available jobs. They can also oversee applications, send emails to job seekers, verify test results, and send interview invitations. Users can register on the platform, log in, and browse available jobs. They can apply for desired positions, attempt relevant tests, and view their application status. The platform provides a seamless way for job seekers to stay informed about their progress. Both admins and users can log out securely after completing their tasks. This framework fosters effective communication, secure access, and efficient management of recruitment workflows, benefiting both organizations and applicants.
+              </p>
+      
+            </div>
+  
+          </div>
+  
+        </div>
+  
+      </section><!-- /About Section -->
+      <!-- Counts Section -->
+   
+  </main>
+{% endblock %}

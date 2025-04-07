@@ -1,0 +1,74 @@
+{% extends "home.html" %}
+{% block content %}
+
+<!-- Courses Section -->
+<section id="courses" class="courses section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Jobs</h2>
+      <p>Popular Jobs</p>
+    </div><!-- End Section Title -->
+  
+    <div class="container">
+      <div class="row">
+        {% for i in jobs %}
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+          <div class="course-item" style="background: #fff; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; transition: transform 0.3s;">
+            <img src="/{{i.image}}" alt="Job Image" style="width: 100%; height: 200px; object-fit: cover;">
+            <div class="course-content" style="padding: 20px;">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="{% url 'viewjob' i.id %}">
+                  <p class="category" style="color: #f4f8fc; font-weight: bold; margin: 0;">{{i.companyname}}</p>
+                </a>
+              </div>
+  
+              <h3><a href="{% url 'viewjob' i.id %}" style="font-size: 18px; color: #333; text-decoration: none;">{{i.jobtitle}}</a></h3>
+              <p class="description" style="text-align: justify; color: #555; margin-bottom: 10px;"><strong>Job Description :</strong> {{i.jobdescription}}</p>
+              <p style="margin: 0 0 10px;"><strong>Salary :</strong> {{i.salary}} Per Annum</p>
+              <p style="margin: 0 0 10px;"><strong>Location :</strong> {{i.joblocation}}</p>
+              {% if login == 'user' %}
+              <div class="trainer d-flex justify-content-between align-items-center" style="margin-top: 10px;">
+              {% if i.jobstatus == 'Active' %}
+
+                <center>
+                  <a href="{% url 'applyjob' i.id %}" style="display: inline-block; background-color: rgb(80, 119, 228); color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 14px; text-decoration: none;">Apply Here</a>
+                </center>
+                <center>
+                  <p class="category" style="background-color: rgb(91, 206, 181); color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 14px; margin: 0;">Job Is {{i.jobstatus}}</p>
+                </center>
+                {% else %}
+                <center>
+                  <p class="category" style="background-color: rgb(216, 54, 26); color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 14px; margin: 0;">Job Is {{i.jobstatus}}</p>
+                </center>
+                {% endif %}
+              </div>
+              {% else %}
+              <div class="trainer d-flex justify-content-between align-items-center" style="margin-top: 10px;">
+                {% if i.jobstatus == 'Active' %}
+             
+                <center>
+                 <p class="category" style="background-color: rgb(91, 206, 181); color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 14px; margin: 0;">Job Is {{i.jobstatus}}</p>
+                </center>
+                {% else %}
+                <center>
+                  <p class="category" style="background-color: rgb(216, 54, 26); color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 14px; margin: 0;">Job Is {{i.jobstatus}}</p>
+                </center>
+                {% endif %}
+
+              </div>
+              <!-- Action Buttons for Each Job -->
+              <div class="d-flex justify-content-between mt-3">
+
+                <a href="{% url 'updatejob' i.id %}" style="background-color: rgb(80, 119, 228); color: #fff; padding: 10px 20px; border-radius: 5px; font-size: 14px; text-decoration: none;">Update Job</a>
+                <a href="{% url 'deletejob' i.id %}" style="background-color: rgb(228, 80, 100); color: #fff; padding: 10px 20px; border-radius: 5px; font-size: 14px; text-decoration: none;">Delete Job</a>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div><!-- End Course Item -->
+        {% endfor %}
+      </div>
+    </div>
+</section><!-- /Courses Section -->
+
+{% endblock %}

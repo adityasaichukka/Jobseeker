@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Attempt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 280px;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Attempt the Test</h2>
+    <form action="{% url 'attempttest' id %}" method="post">
+        {% csrf_token %}
+        <div class="question">
+            <p>1.{{question}}</p>
+            <textarea name="answer" placeholder="Type your answer here..." required></textarea>
+        </div>
+        
+      
+        <button type="submit">Submit Answers</button>
+    </form>
+</body>
+{% endblock %}

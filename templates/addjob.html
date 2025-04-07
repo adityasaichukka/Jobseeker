@@ -1,0 +1,151 @@
+{% extends "home.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Upload Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            /* background: linear-gradient(120deg, #fdf8f5, #ffe5d9); */
+            background: url('/static/assets/img/i2.jpg') no-repeat center center/cover;
+           
+        }
+
+        .containr {
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            
+            margin: 50px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .form-group textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .containr {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="containr">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            <center>  {{ message }}</center>
+          </div>
+        {% endfor %}
+        {% endif %}
+        <h2>Upload Job Details</h2>
+        <form action="{% url 'addjob' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="job-title">Company Name</label>
+                <input type="text" id="job-title" name="companyname" placeholder="Enter Company Name" required>
+            </div>
+            <div class="form-group">
+                <label for="job-title">Job Title</label>
+                <input type="text" id="job-title" name="job_title" placeholder="Enter job title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="job-description">Job Description</label>
+                <textarea id="job-description" name="job_description" placeholder="Enter job description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="job-title">Primary Skills</label>
+                <textarea id="job-description" name="primaryskills" placeholder="Enter Primary Skills" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="job-category">Job Category</label>
+                <select id="job-category" name="job_category" required>
+                    <option value="">Select category</option>
+                    <option value="it">IT</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="finance">Finance</option>
+                    <option value="hr">Human Resources</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="Enter job location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="salary">Salary </label>
+                <input type="number" id="salary" name="salary" placeholder="Enter salary">
+            </div>
+
+            <div class="form-group">
+                <label for="file">Upload Job File </label>
+                <input type="file" id="file" name="job_file" accept=".jpg, .png">
+            </div>
+
+            <button type="submit" class="btn">Submit Job</button>
+        </form>
+    </div>
+</body>
+{% endblock %}

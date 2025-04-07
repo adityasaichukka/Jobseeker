@@ -1,0 +1,156 @@
+{% extends "index.html" %}
+{% block nav %}
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="#" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="/static/assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">Automated Recruitment</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+            {% if login == 'user' %}
+          <li><a href="{% url 'home' %}" >Home<br></a></li>
+          <li><a href="{% url 'jobs' %}">Jobs</a></li>
+          <li><a href="{% url 'viewapplications' %}">View Applications</a></li>
+          <li><a href="{% url 'testandresponses' %}">Test & Responses</a></li>
+
+
+          
+            {% else %}
+          <li><a href="{% url 'home' %}" >Home<br></a></li>
+          <li><a href="{% url 'addjob' %}" >Add Jobs <br></a></li>
+          <li><a href="{% url 'jobs' %}">Jobs</a></li>
+          <li><a href="{% url 'viewjobapplications' %}">View Job Applications</a></li>
+
+
+
+        {% endif %}
+
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      {% comment %} <a class="btn-getstarted" href="courses.html">Get Started</a> {% endcomment %}
+
+    </div>
+  </header>
+{% block content %}
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <img src="/static/assets/img/i2.jpg" alt="" data-aos="fade-in">
+
+      <div class="container">
+        <h2 data-aos="fade-up" data-aos-delay="100">Automated Recruitment Process<br> Web Framework</h2>
+        {% comment %} <p data-aos="fade-up" data-aos-delay="200">We are team of talented designers making websites with Bootstrap</p> {% endcomment %}
+        <div class="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
+          {% comment %} <a href="courses.html" class="btn-get-started">Get Started</a> {% endcomment %}
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+    <center><h1 style="margin-bottom: 100px; font-weight: bolder;">About</h1></center>
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+            <img src="/static/assets/img/i1.jpg" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+            
+            <h3>JobSeeker Automated Recruitment Process Web Framework</h3>
+            
+            <p class="fst-italic">
+              
+JobSeeker Automated Recruitment Process Web Framework is designed to simplify and enhance the recruitment process for administrators and job seekers. Admins can log in securely to manage job postings, including adding, updating, deleting, and viewing available jobs. They can also oversee applications, send emails to job seekers, verify test results, and send interview invitations. Users can register on the platform, log in, and browse available jobs. They can apply for desired positions, attempt relevant tests, and view their application status. The platform provides a seamless way for job seekers to stay informed about their progress. Both admins and users can log out securely after completing their tasks. This framework fosters effective communication, secure access, and efficient management of recruitment workflows, benefiting both organizations and applicants.
+            </p>
+    
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+<!-- Courses Section -->
+<section id="courses" class="courses section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Jobs</h2>
+      <p>Popular Jobs</p>
+    </div><!-- End Section Title -->
+  
+    <div class="container">
+      <div class="row">
+        {% for i in jobs %}
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+          <div class="course-item" style="background: #fff; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; transition: transform 0.3s;">
+            <img src="/{{i.image}}" alt="Job Image" style="width: 100%; height: 200px; object-fit: cover;">
+            <div class="course-content" style="padding: 20px;">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="{% url 'viewjob' i.id %}"><p class="category" style="color: #f4f8fc; font-weight: bold; margin: 0;">{{i.companyname}}</p></a>
+              </div>
+              
+              <h3><a href="{% url 'viewjob' i.id %}" style="font-size: 18px; color: #333; text-decoration: none;">{{i.jobtitle}}</a></h3>
+              <p class="description" style="text-align: justify; color: #555; margin-bottom: 10px;"><strong>Job Description :</strong> {{i.jobdescription}}</p>
+              <p style="margin: 0 0 10px;"><strong>Salary :</strong> {{i.salary}} Per Annum</p>
+              <p style="margin: 0 0 10px;"><strong>Location :</strong> {{i.joblocation}}</p>
+              {% if login == 'user' %}
+              <div class="trainer d-flex justify-content-between align-items-center" style="margin-top: 10px;">
+              {% if i.jobstatus == 'Active' %}
+
+                <center>
+                  <a href="{% url 'applyjob' i.id %}" style="display: inline-block; background-color: rgb(80, 119, 228); color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 14px; text-decoration: none;">Apply Here</a>
+                </center>
+                <center>
+                  <p class="category" style="background-color: rgb(91, 206, 181); color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 14px; margin: 0;">Job Is {{i.jobstatus}}</p>
+                </center>
+                {% else %}
+                <center>
+                  <p class="category" style="background-color: rgb(216, 54, 26); color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 14px; margin: 0;">Job Is {{i.jobstatus}}</p>
+                </center>
+                {% endif %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div><!-- End Course Item -->
+        {% endfor %}
+      </div>
+    </div>
+  </section><!-- /Courses Section -->
+  
+
+  </main>
+  {% endblock %}
+
+  <footer id="footer" class="footer position-relative light-background">
+
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename"></strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="#"></a> Distributed by Aditya & srinu <a href=“#>
+      </div>
+    </div>
+
+  </footer>
+  {% endblock %}

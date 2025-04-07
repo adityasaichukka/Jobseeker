@@ -1,0 +1,137 @@
+{% extends "home.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #c09de7, #7aa1e4);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .containr {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        .containr h1 {
+            text-align: center;
+            color: #2575fc;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group input[type="file"] {
+            padding: 3px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background: #2575fc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-group button:hover {
+            background: #1b5fcc;
+        }
+
+        .form-group small {
+            color: red;
+        }
+
+        @media (max-width: 768px) {
+            .containr {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="containr">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            <center>  {{ message }}</center>
+          </div>
+        {% endfor %}
+        {% endif %}
+        <h1>Job Application Form</h1>
+        <form action="{% url 'applyjob' id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for i in user %}
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" value="{{i.username}}" readonly required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" value="{{i.email}}" readonly required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" 
+                       pattern="[6-9][0-9]{9}" title="Phone number must start with 6, 7, 8, or 9 and have 10 digits" 
+                       required>
+            </div>
+            
+
+            {% endfor %}
+
+            <div class="form-group">
+                <label for="position">Position Applied For</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter Position" value="{{position}}" readonly required>
+
+            </div>
+
+            <div class="form-group">
+                <label for="resume">Upload Resume</label>
+                <input type="file" id="resume" name="resume" accept=".pdf" required>
+            </div>
+
+            
+
+            <div class="form-group">
+                <button type="submit">Submit Application</button>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}
